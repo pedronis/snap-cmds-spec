@@ -12,7 +12,7 @@ class ScenarioSupport(unittest.TestCase):
     def check_err_matches(self, err, regexp):
         if not err:
             self.fail("expected error, got %s" % err)
-        self.assertRegexpMatches(err, regexp)
+        self.assertRegex(err, regexp)
 
     def check_revision(self, snap_name, revision):
         snap = snapd.snaps.get(snap_name)
