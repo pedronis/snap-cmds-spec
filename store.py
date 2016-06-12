@@ -3,7 +3,8 @@
 snaps = {
     "baz": {
         "id": "baz-id",
-        1: {"epoch": "0"}
+        1: {"epoch": "0"},
+        2: {"epoch": "1"}
         }
 }
 
@@ -25,8 +26,11 @@ def setup(snap_name, **chan_map):
         snap_map[chan]['revision'] = revno
 
 
-def search(q, channel):
+def snap(name, channel):
     try:
-        return channel_map[q][channel]
+        rsnap = channel_map[name][channel]
     except KeyError:
         return None
+    rsnap = rsnap.copy()
+    rsnap['revision'] = str(rsnap['revision'])
+    return rsnap

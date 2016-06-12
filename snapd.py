@@ -32,11 +32,34 @@ def install(name, channel=None):
         return 'snap "%s" already installed' % name
 
     channel = channel or "stable"
-    rsnap = store.search(name, channel)
+    return do_install(name, channel)
+
+
+# matches snapstate.Upgrade
+def update(name, channel=None):
+    snapst = get_snapst(name)
+    if snapst.current() is None:
+        return 'cannot find snap "%s"' % name
+
+    if not channel:
+        channel = snapst.channel
+
+    # XXX: atm update is implemented as an install in the real snapd!
+    return do_install(name, channel)
+
+
+def do_install(name, channel):
+    rsnap = store.snap(name, channel or "stable")
     if not rsnap:
         return "snap not found"
 
+    snapst = get_snapst(name)
+    for si in snapst.sequence:
+        if si['revision'] == rsnap['revision']:
+            return 'revision %s of snap "%s" already installed' % (rsnap['revision'], name)
+
     snapst.active = True
     snapst.sequence.append(rsnap)
-    snapst.channel = channel
+    if channel:
+        snapst.channel = channel
     snaps[name] = snapst

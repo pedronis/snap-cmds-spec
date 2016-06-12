@@ -20,5 +20,5 @@ class ScenarioSupport(unittest.TestCase):
             self.fail("%s not present" % snap_name)
         if not snap.active:
             self.fail("%s not active" % snap_name)
-        if not snap.sequence or snap.sequence[-1]["revision"] != revision:
+        if not snap.sequence or snap.sequence[-1]["revision"] != str(revision):
             self.fail("%s not at revision %s" % (snap_name, revision))
