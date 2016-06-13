@@ -1,6 +1,5 @@
 import bin
 import snapd
-import store
 
 snap_dirs = {}
 data_dirs = {}

@@ -3,6 +3,7 @@ import store
 import snapd
 import disk
 
+
 class ScenarioSupport(unittest.TestCase):
 
     def setUp(self):
