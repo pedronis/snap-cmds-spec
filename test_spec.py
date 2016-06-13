@@ -1,6 +1,7 @@
 import support
 import snap
 import store
+import disk
 
 
 class TestScenarios(support.ScenarioSupport):
@@ -34,10 +35,16 @@ class TestScenarios(support.ScenarioSupport):
         snap.install("baz")
         self.check_revision("baz", 1)
 
+        err = disk.run("baz")
+        self.check_no_err(err)
+
         store.setup("baz", stable=2)
 
         snap.refresh("baz")
         self.check_revision("baz", 2)
+
+        err = disk.run("baz")
+        self.check_no_err(err)
 
     def test_refresh_to_edge(self):
         store.setup("baz", stable=1, edge=2)
@@ -55,8 +62,14 @@ class TestScenarios(support.ScenarioSupport):
         snap.install("baz")
         self.check_revision("baz", 1)
 
+        err = disk.run("baz")
+        self.check_no_err(err)
+
         snap.refresh("baz", channel="edge")
         self.check_revision("baz", 2)
+
+        err = disk.run("baz")
+        self.check_no_err(err)
 
         err = snap.refresh("baz", channel="stable")
         self.check_err_matches(err, '.*revision 1 of snap "baz" already installed.*')

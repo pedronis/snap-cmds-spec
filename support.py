@@ -1,13 +1,17 @@
 import unittest
 import store
 import snapd
-
+import disk
 
 class ScenarioSupport(unittest.TestCase):
 
     def setUp(self):
         store.state_reset()
         snapd.state_reset()
+        disk.state_reset()
+
+    def check_no_err(self, err):
+        self.assertIsNone(err)
 
     def check_err_matches(self, err, regexp):
         if not err:

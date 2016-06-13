@@ -1,5 +1,6 @@
 # snapd logic
 import store
+import disk
 
 snaps = {}
 
@@ -58,8 +59,21 @@ def do_install(name, channel):
         if si['revision'] == rsnap['revision']:
             return 'revision %s of snap "%s" already installed' % (rsnap['revision'], name)
 
+    copy_data(name, rsnap, snapst.current())
+
+    # XXX: split rsnap into SideInfo and snap.yaml bits
+    disk.snap_dirs["%s/%s" % (name, rsnap['revision'])] = rsnap
+
     snapst.active = True
     snapst.sequence.append(rsnap)
     if channel:
         snapst.channel = channel
     snaps[name] = snapst
+
+
+def copy_data(name, new, old):
+    if old is None:
+        disk.data_dirs["%s/%s" % (name, new['revision'])] = None
+    else:
+        old_data = disk.data_dirs["%s/%s" % (name, old['revision'])]
+        disk.data_dirs["%s/%s" % (name, new['revision'])] = old_data
