@@ -1,4 +1,4 @@
-# store logic
+# store logic as presented by the store pkg and snap defs
 
 snaps = {
     "baz": {

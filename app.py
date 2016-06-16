@@ -1,3 +1,5 @@
+# snap app behaviors
+
 import store
 import disk
 
@@ -25,7 +27,8 @@ def compatible_epochs(e1, e2):
     return False
 
 
-def baz(env):
+# defines app baz of snap baz
+def baz_baz(env):
     d = disk.data_dirs[env["SNAP_DATA"]]
     ver = env["SNAP_VERSION"]
     epoch = version_to_epoch["baz"][ver]

@@ -35,7 +35,7 @@ class TestScenarios(support.ScenarioSupport):
         snap.install("baz")
         self.check_revision("baz", 1)
 
-        err = disk.run("baz")
+        err = disk.bin_run("baz")
         self.check_no_err(err)
 
         store.setup("baz", stable=2)
@@ -43,7 +43,7 @@ class TestScenarios(support.ScenarioSupport):
         snap.refresh("baz")
         self.check_revision("baz", 2)
 
-        err = disk.run("baz")
+        err = disk.bin_run("baz")
         self.check_no_err(err)
 
     def test_refresh_to_edge(self):
@@ -62,13 +62,13 @@ class TestScenarios(support.ScenarioSupport):
         snap.install("baz")
         self.check_revision("baz", 1)
 
-        err = disk.run("baz")
+        err = disk.bin_run("baz")
         self.check_no_err(err)
 
         snap.refresh("baz", channel="edge")
         self.check_revision("baz", 2)
 
-        err = disk.run("baz")
+        err = disk.bin_run("baz")
         self.check_no_err(err)
 
         err = snap.refresh("baz", channel="stable")

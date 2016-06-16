@@ -1,5 +1,6 @@
-import bin
-import snapd
+# on disk: data and looking up executables
+import snap
+import app
 
 snap_dirs = {}
 data_dirs = {}
@@ -10,18 +11,11 @@ def state_reset():
     data_dirs.clear()
 
 
-def run(name):
-    snapst = snapd.get_snapst(name)
-    if snapst is None:
-        raise Exception("cannot find script for %s" % name)
+def bin_run(name):
+    return snap.run(name)
 
-    revision = snapst.current()['revision']
-    script = getattr(bin, name)
-    ver = snap_dirs["%s/%s" % (name, revision)]['version']
 
-    env = {
-        "SNAP_REVISION": revision,
-        "SNAP_VERSION": ver,
-        "SNAP_DATA": "%s/%s" % (name, revision)
-    }
-    return script(env)
+def bin_lookup(snap_name_revno, app_name):
+    # for now assume the executable is the same across revisions
+    snap_name = snap_name_revno.split('/')[0]
+    return getattr(app, "%s_%s" % (snap_name, app_name))
